@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import path from 'path';
 import session from 'express-session';
+import mongoose from 'mongoose';
+import MongoStore from 'connect-mongo';
 import { fileURLToPath } from 'url';
 
 import route from './routes/routes.js';
@@ -11,7 +13,14 @@ import route from './routes/routes.js';
 // ==========
 
 dotenv.config();
-const { APP_HOSTNAME, APP_PORT, NODE_ENV, SESSION_SECRET } = process.env;
+const { 
+  APP_HOSTNAME, 
+  APP_PORT, 
+  NODE_ENV, 
+  SESSION_SECRET, 
+  MONGO_STRING,
+  MONGO_DB_NAME 
+} = process.env;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
@@ -33,6 +42,7 @@ app.use(session({
   store: MongoStore.create({ mongoUrl: `${MONGO_STRING}${MONGO_DB_NAME}` })
 }));
 app.use(express.urlencoded({ extended: false }));
+
 // ==========
 // App routers
 // ==========

@@ -13,7 +13,7 @@ export default function login(req, res) {
       username: login
     }
 
-    res.redirect('/panel/dashboard')
+    res.redirect('/dashboard')
     return
   } else {
     res.redirect(`/?errorMessage=Les identifiants sont invalides !`)
