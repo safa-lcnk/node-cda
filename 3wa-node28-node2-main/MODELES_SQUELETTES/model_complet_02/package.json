@@ -1,7 +1,6 @@
 {
   "name": "express-node-monge-app",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js"
@@ -17,5 +16,6 @@
     "express": "^4.17.1",
     "pug": "^3.0.2"
   },
-  "type": "module"
+  "type": "module",
+  "description": ""
 }
