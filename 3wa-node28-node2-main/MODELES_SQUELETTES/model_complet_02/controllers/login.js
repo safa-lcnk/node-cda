@@ -4,7 +4,7 @@ dotenv.config()
 
 const { CORRECT_LOGIN, CORRECT_PASSWORD } = process.env
 
-export default function login(req, res) {
+export function LoginController(req, res) {
   const { login, password } = req.body;
 
   if (login === CORRECT_LOGIN && password === CORRECT_PASSWORD) {
@@ -26,6 +26,7 @@ export function LogoutController(req, res) {
         res.status(500).send(`<h1>Erreur !</h1><p>${err.message}</p>`)
         return
       }
+      req.flash('success', 'Opération quelconque correctement effectuée !');
       res.redirect('/login')
     })
   }

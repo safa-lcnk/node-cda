@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import path from 'path';
 import session from 'express-session';
+import flash from "connect-flash";
 import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo';
 import { fileURLToPath } from 'url';
@@ -26,7 +27,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
 app.set('view engine', 'pug');
-app.locals.pretty = NODE_ENV !== 'production'; // Indente correctement le HTML envoyé au client (utile en dev, mais inutile en production)
+app.locals.pretty = NODE_ENV !== 'production';
 
 // ==========
 // App middlewares
@@ -35,13 +36,22 @@ app.locals.pretty = NODE_ENV !== 'production'; // Indente correctement le HTML e
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  name: 'Inscription', // Nom générique de la session
-  secret: SESSION_SECRET, // Chaîne permettant de signer le cookie
+  name: 'Inscription',
+  secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: `${MONGO_STRING}${MONGO_DB_NAME}` })
 }));
 app.use(express.urlencoded({ extended: false }));
+
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.flash_success = req.flash("success");
+  next();
+});
+
+app.use(express.json())
 
 // ==========
 // App routers
